@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+    <head>
+        <title>Semantic Browse Based News Search</title>
+       <link rel="stylesheet" media="screen" href ="static/css/bootstrap.min.css">
+       <link rel="stylesheet" href="static/css/bootstrap-theme.min.css">
+       <meta name="viewport" content = "width=device-width, initial-scale=1.0">
+        <style>
+            h1.visible {
+                 visibility: visible
+            }
+
+            h1.hidden {
+                visibility: hidden
+            }
+
+.select-style {
+    display: inline-block;
+}
+
+
+
+    </style>
+    </head>
+    <body>
+<script type='text/javascript'>
+    function renderDropDowns() {
+        var inputState = document.getElementById("stateHeader");
+        var input = inputState.textContent || inputState.innerText;
+        if (input) {
+            var topicComplex = input.split("::");
+            var topicW2vDict = {};
+            for(var i in topicComplex) {
+	            var parts = topicComplex[i].split(":");
+                createDropDown(parts[0], parts[1].split("/"));
+            }
+        }
+    }
+
+    function createDropDown(topic, tokens) {
+        var myDrp = document.getElementById("selectDiv");
+        var selectList = document.createElement("select");
+        selectList.setAttribute("id", topic);
+        myDrp.appendChild(selectList);
+        tokens.unshift(topic);
+        for (var i in tokens) {
+            var option = document.createElement("option");
+            option.setAttribute("value", tokens[i]);
+            option.text = tokens[i];
+            selectList.appendChild(option);
+        }
+    }
+
+    function renderPageIndices() {
+
+    }
+
+    function submitForPage(pageNum) {
+        alert(pageNum)
+    }
+</script>
+
+<div class="container">
+    <div class="select-style" id="selectDiv">
+    </div>
+  <form id="mainForm"  action="" method="post" role="form">
+      <h1 class="hidden" id="stateHeader">{{form.state|safe}}</h1>
+      <script>renderDropDowns();</script>
+      <br></br>
+    <div class="form-group">
+      <input type="text" class="form-control" id="query" name="query" placeholder="Search News">
+        <input type="hidden" name="pageNum" id="pageNum" value="0">
+        <input type="hidden" name="state", id="state", value="">
+    </div>
+    <button type="submit" class="btn btn-success">Submit</button>
+  </form>
+
+  <br>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for message in messages %}
+                {% if loop.index == 1 %}
+                {% elif loop.index == 2 %}
+                {% else %}
+                    <div class="alert alert-info">
+                        {{ message[1] }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <script>renderPageIndices();</script>
+<br>
+</div>
+</div>
+</body>
+</html>
