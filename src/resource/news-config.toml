@@ -2,7 +2,7 @@ prefix = "."
 stop-words = "resource/stopwords.txt"
 
 dataset = "news"
-corpus = "line.toml"
+corpus = "resource/news/line.toml"
 index = "idx"
 
 [[analyzers]]

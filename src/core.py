@@ -15,9 +15,10 @@ class Response(object):
 
 class SearchResult(object):
 
-    def __init__(self, url, title):
+    def __init__(self, url, title, text):
         self.__url__ = url
         self.__title__ = title
+        self.__text__ = text
 
     def get_url(self):
         return self.__url__
@@ -25,4 +26,6 @@ class SearchResult(object):
     def get_title(self):
         return self.__title__
 
+    def get_text(self):
+        return self.__text__
 
