@@ -17,8 +17,8 @@ for line in stopfile:
     stopset.add(line.rstrip())
 stopfile.close()
 
-class AbstractProcessor:
 
+class AbstractProcessor:
     def __init__(self):
         pass
 
@@ -34,7 +34,6 @@ class StopWordProcessor(AbstractProcessor):
 
 
 class BigramPhraser(AbstractProcessor):
-
     def process(self, tokenlist):
         print('In BigramPhraser.process')
         return model[tokenlist]
@@ -48,7 +47,7 @@ class Stemmer(AbstractProcessor):
 
 
 class Lemmatizer(AbstractProcessor):
-    def process(self,tokenlist):
+    def process(self, tokenlist):
         print('In Lemmatizer.process')
         newtokenlist = [unidecode(wordnet_lemmatizer.lemmatize(token)) for token in tokenlist]
         return newtokenlist

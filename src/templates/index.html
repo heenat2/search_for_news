@@ -14,9 +14,17 @@
                 visibility: hidden
             }
 
-.select-style {
+select {
     display: inline-block;
+    width: 160px;
 }
+select#myselect option {
+    float: left;
+    border: 1px solid;
+    text-align: -webkit-center;
+    border-color: darkgray;
+}
+
 
 
 
@@ -61,7 +69,7 @@
 </script>
 
 <div class="container">
-    <div class="select-style" id="selectDiv">
+    <div class="select" id="selectDiv">
     </div>
   <form id="mainForm"  action="" method="post" role="form">
       <h1 class="hidden" id="stateHeader">{{form.state|safe}}</h1>
