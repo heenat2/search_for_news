@@ -51,11 +51,32 @@ select#myselect option {
         selectList.setAttribute("id", topic);
         myDrp.appendChild(selectList);
         tokens.unshift(topic);
+        tokens.unshift(topic);
         for (var i in tokens) {
             var option = document.createElement("option");
             option.setAttribute("value", tokens[i]);
             option.text = tokens[i];
             selectList.appendChild(option);
+        }
+        selectList.options[0].disabled = true;
+        selectList.selectedIndex = 0;
+        selectList.onchange = function(){
+            var text = selectList.options[selectList.selectedIndex].text;
+            selectList.style.color = 'green';
+            changeState(selectList.options[0].text, text);
+        };
+    }
+
+    function changeState(topic, selectedText) {
+        var currentState = document.getElementById('state').value
+        if (currentState) {
+            var set = new Set(currentState.split("::"));
+            set.add(topic);
+            set.add(selectedText);
+            var arr = Array.from(set);
+            document.getElementById('state').value = arr.join("::");
+        } else {
+            document.getElementById('state').value = topic + "::" + selectedText;
         }
     }
 
@@ -73,11 +94,12 @@ select#myselect option {
     </div>
   <form id="mainForm"  action="" method="post" role="form">
       <h1 class="hidden" id="stateHeader">{{form.state|safe}}</h1>
+      <h1 class="hidden" id="pageNumFromReq">{{form.pageNum|safe}}</h1>
       <script>renderDropDowns();</script>
       <br></br>
     <div class="form-group">
       <input type="text" class="form-control" id="query" name="query" placeholder="Search News">
-        <input type="hidden" name="pageNum" id="pageNum" value="0">
+        <input type="hidden" name="pageNum" id="pageNum" value="">
         <input type="hidden" name="state", id="state", value="">
     </div>
     <button type="submit" class="btn btn-success">Submit</button>
