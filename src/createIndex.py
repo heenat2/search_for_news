@@ -1,16 +1,15 @@
+'''Creates inverted index for corpus.txt'''
+
 from corpusprocessor import CorpusProcessor
 import metapy
 import pytoml
 
-text_list = []
-url_list = []
-config_path = '/home/rik/Heena/news-config.toml'
+text_list, url_list, title_list = [], [], []
+config_path = 'resource/news-config.toml'
 
-
-cp = CorpusProcessor()
-text_list, url_list = cp.get_corpus_list()
+cp = CorpusProcessor(dir_path='/home/rik/Heena/News2')
+text_list, url_list, title_list = cp.get_corpus_list()
 cp.preprocess(text_list)
-
 
 idx = metapy.index.make_inverted_index(config_path)
 print('inverted index created')

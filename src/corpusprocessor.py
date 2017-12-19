@@ -1,23 +1,38 @@
+'''Processes corpus and writes processed content to news.dat
+Input file name = corpus.txt
+Processed file name = news.dat
+Is called from createIndex.py and ...'''
+
 from nltk import RegexpTokenizer
 from unidecode import unidecode
 from processor import ProcessingHandler
 import json
-tokenizer = RegexpTokenizer('[A-Za-z0-9]{3,}')
-
+tokenizer = RegexpTokenizer('[A-Za-z]{3,}')
+path = 'resource/news/news.dat'
 
 class CorpusProcessor:
+
     def __init__(self,dir_path = '/home/rik/Heena/News2',processing_handler = ProcessingHandler):
+        '''
+        :param dir_path: path to folder containing corpus
+        :type dir_path: str
+        :param processing_handler: handler for sequence of operations to be performed for data preprocessing
+        :type processing_handler: ProcessingHandler
+        '''
         self.dir_path = dir_path
         self.processing_handler = processing_handler
 
     def get_corpus_list(self):
-        print('In get_corpus_list')
+        '''
+
+        :return:
+        :rtype:
+        '''
+        print('Getting corpus...')
         text_list, url_list, title_list = [],[],[]
         ip_file = open(self.dir_path + '/corpus.txt', 'r')
         for line in ip_file:
             jsondict = json.loads(line.rstrip())
-            # corpus_dict[jsondict["url"]] = [jsondict['date_published'], jsondict['uuid'], jsondict['title_full'],
-            #                               jsondict['text']]
             text_list.append(jsondict['text'])
             url_list.append(jsondict['url'])
             title_list.append(jsondict['title'])
@@ -25,8 +40,7 @@ class CorpusProcessor:
         return text_list, url_list, title_list
 
     def preprocess(self,text_list):
-        print('In corpusprocessor.preprocess')
-        path = '/home/rik/Heena/news/news.dat'
+        print('Started preprocessing...')
         processed_tokens_list = []
         op_file = open(path, 'w')
         for text in text_list:

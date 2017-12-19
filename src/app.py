@@ -1,11 +1,11 @@
 from markupsafe import Markup
-
+from gensim.models import Word2Vec
 from search import Search
 from flask import Flask, render_template, flash, request
 from wtforms import Form, StringField
 
 # App config.
-from lda_infer_topics import TopicInference
+from lda_infer_topics2 import TopicInference
 
 DEBUG = False
 app = Flask(__name__)
@@ -28,8 +28,11 @@ def get_topic_string(results):
 
 
 def get_w2v_similarity(term):
-    #call w2v with term to get sims
-    return '/'.join(['sim1', 'sim2'])
+    if term in w2v:
+        term_list = [term_cos_tup[0] for term_cos_tup in w2v.wv.most_similar(positive=[term],topn=10)]
+        return '/'.join(term_list)
+    else:
+        return ' '
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -64,8 +67,8 @@ if __name__ == "__main__":
     global search
     search = Search()
     global lda_inference
-    lda_inference = TopicInference('/home/rik/Heena/corpusdata.dictionary',
-                                   '/home/rik/Heena/LDA Model 50 Sym/lda_model_50_sym')
+    lda_inference = TopicInference('resource/corpusdata.dictionary',
+                                   'models/lda_model/LDAModel50Symmetric/ldamodel')
     global w2v
-    w2v = None
+    w2v = Word2Vec.load('models/word_2_vec/w2vmodel')
     app.run(threaded=False)
