@@ -3,7 +3,7 @@ This is the starting point for the application Semantic Search Service for News.
 Change path to dictionary, lda model and Word2Vec model in main() as required.
 Default number of documents to be retrieved is set to 25.
 """
-
+import nltk
 from markupsafe import Markup
 from gensim.models import Word2Vec
 from search import Search
@@ -84,6 +84,8 @@ def hello():
 
 if __name__ == "__main__":
     # initializes model paths and objects
+    nltk.download('punkt')
+    nltk.download('wordnet')
     dictionary_path = 'resource/corpusdata.dictionary'
     lda_model_path = 'models/lda_model/LDAModel50Symmetric/ldamodel'
     w2v_path = 'models/word_2_vec/w2vmodel'

@@ -14,7 +14,7 @@ path = 'resource/news/news.dat'
 
 class CorpusProcessor:
 
-    def __init__(self, dir_path='/home/rik/Heena/News2', processing_handler=ProcessingHandler):
+    def __init__(self, dir_path='resource', processing_handler=ProcessingHandler):
         """
         :param dir_path: path to folder containing corpus
         :type dir_path: str
