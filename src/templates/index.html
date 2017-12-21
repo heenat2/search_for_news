@@ -71,12 +71,11 @@ select#myselect option {
         var currentState = document.getElementById('state').value
         if (currentState) {
             var set = new Set(currentState.split("::"));
-            set.add(topic);
             set.add(selectedText);
             var arr = Array.from(set);
             document.getElementById('state').value = arr.join("::");
         } else {
-            document.getElementById('state').value = topic + "::" + selectedText;
+            document.getElementById('state').value = selectedText;
         }
     }
 
