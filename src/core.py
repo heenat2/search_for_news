@@ -1,21 +1,19 @@
-
-
-class Response(object):
-
-    def __init__(self, browse_dict, results):
-        self.__browse_dict__ = browse_dict
-        self.__results__ = results
-
-    def get_browse_dict(self):
-        return self.__browse_dict__
-
-    def get_results(self):
-        return self.__results__
-
+"""
+Defines class SearchResult.
+Instantiated in search.py.
+"""
 
 class SearchResult(object):
 
     def __init__(self, url, title, text):
+        """
+        :param url: URL of the retrieved document
+        :type url: str
+        :param title: Title of the retrieved document
+        :type title: str
+        :param text: Body of the retrieved document
+        :type text: str
+        """
         self.__url__ = url
         self.__title__ = title
         self.__text__ = text
@@ -28,4 +26,3 @@ class SearchResult(object):
 
     def get_text(self):
         return self.__text__
-

@@ -1,4 +1,6 @@
-'''Creates inverted index for corpus.txt'''
+"""
+Uses metapy to create inverted index on corpus.txt to enable search for queries.
+"""
 
 from corpusprocessor import CorpusProcessor
 import metapy

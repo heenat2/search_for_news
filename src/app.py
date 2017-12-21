@@ -1,11 +1,17 @@
+"""
+This is the starting point for the application Semantic Search Service for News.
+Change path to dictionary, lda model and Word2Vec model in main() as required.
+Default number of documents to be retrieved is set to 25.
+"""
+
 from markupsafe import Markup
 from gensim.models import Word2Vec
 from search import Search
 from flask import Flask, render_template, flash, request
 from wtforms import Form, StringField
+from lda_infer_topics2 import TopicInference
 
 # App config.
-from lda_infer_topics2 import TopicInference
 
 DEBUG = False
 app = Flask(__name__)
@@ -23,13 +29,25 @@ class ReusableForm(Form):
 
 
 def get_topic_string(results):
+    """
+    :param results: documents retrieved after query search
+    :type results: List of SearchResult object. See core.py for class SearchResult.
+    :return: top topics for retrieved documents and their most similar terms
+    :rtype: str
+    """
     top_topics = lda_inference.infer_topics(results)
     return '::'.join(map(lambda x: x + ":" + get_w2v_similarity(x), top_topics))
 
 
 def get_w2v_similarity(term):
+    """
+    :param term: term for which similar terms are to be fetched using word2vec model
+    :type term: str
+    :return: '/' delimited string consisting of 10 most similar terms
+    :rtype: str
+    """
     if term in w2v:
-        term_list = [term_cos_tup[0] for term_cos_tup in w2v.wv.most_similar(positive=[term],topn=10)]
+        term_list = [term_cos_tup[0] for term_cos_tup in w2v.wv.most_similar(positive=[term], topn=10)]
         return '/'.join(term_list)
     else:
         return ' '
@@ -37,6 +55,7 @@ def get_w2v_similarity(term):
 
 @app.route("/", methods=['GET', 'POST'])
 def hello():
+    # renders search page
     if request.method == 'POST':
         query = request.form['query']
         page = request.form['pageNum']
@@ -46,7 +65,7 @@ def hello():
         print query
         print page
         print state
-        search_results = search.get_results_for_query(query + " " + ' '.join(state.split("::")), max_results=100)
+        search_results = search.get_results_for_query(query + " " + ' '.join(state.split("::")), max_results=25)
         topic_string = get_topic_string(search_results)
         flash(topic_string)
         new_form = ReusableForm(request.form)
@@ -54,8 +73,8 @@ def hello():
         new_form.state = topic_string
         flash("1::2")
         for doc in search_results:
-            flash(Markup("<a href='" + doc.get_url() + "'>"
-                         + doc.get_title() + "</a><br></br>" + "<div>" +
+            flash(Markup("<u><a href='" + doc.get_url() + "'>"
+                         + doc.get_title() + "</a></u><br></br>" + "<div>" +
                          doc.get_text() + "</div>"))
 
         return render_template('index.html', form=new_form)
@@ -64,11 +83,11 @@ def hello():
 
 
 if __name__ == "__main__":
-    global search
+    # initializes model paths and objects
+    dictionary_path = 'resource/corpusdata.dictionary'
+    lda_model_path = 'models/lda_model/LDAModel50Symmetric/ldamodel'
+    w2v_path = 'models/word_2_vec/w2vmodel'
     search = Search()
-    global lda_inference
-    lda_inference = TopicInference('resource/corpusdata.dictionary',
-                                   'models/lda_model/LDAModel50Symmetric/ldamodel')
-    global w2v
-    w2v = Word2Vec.load('models/word_2_vec/w2vmodel')
+    lda_inference = TopicInference(dictionary_path, lda_model_path)
+    w2v = Word2Vec.load(w2v_path)
     app.run(threaded=False)

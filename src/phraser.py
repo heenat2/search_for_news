@@ -1,6 +1,8 @@
-'''Modify corpus_path and phraser_model_path before training the Phraser model.
+"""
+Modify corpus_path and phraser_model_path before training the Phraser model.
 This program detects commonly occurring bi-grams in the corpus and generates
-and saves a Phraser object for future use.'''
+and saves a Phraser object for future use.
+"""
 
 from nltk import RegexpTokenizer
 from unidecode import unidecode
