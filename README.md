@@ -30,6 +30,9 @@ Source code is available in Ldamodel.py, lda_infer_topics2.py and sort_relevance
 **TERMS SIMILAR TO TOPICS** - Gensim word2vec model was trained on the corpus to extract most similar terms.
 Source code is available in word2vectrain.py. Similar word prediction is done in app.py.
 
+  __________________________________________________________________________________________________________________________________________________
+
+
 _Installation_ - can be accomplished using method 1 or 2. Method 1 is recommended for running the application easily.
 
 1. The application has been containerized using docker. Docker can be installed from https://docs.docker.com/engine/installation/.
