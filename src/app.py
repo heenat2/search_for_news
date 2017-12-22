@@ -92,4 +92,4 @@ if __name__ == "__main__":
     search = Search()
     lda_inference = TopicInference(dictionary_path, lda_model_path)
     w2v = Word2Vec.load(w2v_path)
-    app.run(threaded=False)
+    app.run(host='0.0.0.0', port=5000, threaded=False)

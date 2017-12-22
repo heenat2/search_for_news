@@ -101,21 +101,23 @@ class TopicInference(object):
         relevance_ordered_terms = sr.sort_terms_by_relevance(final_terms, 0.6)
         sorted_relevant_terms = sorted(relevance_ordered_terms, key=lambda (id, weight): weight, reverse=True)
 
-        # number of terms is limited to 14 to display 2 lines of recommended terms but can be adjusted as desired
-        relevant_final_terms = set()
-        for i, x in enumerate(sorted_relevant_terms):
-            if i < 14:
-                relevant_final_terms.add(x[0])
-        print relevant_final_terms
+        # sorted_terms and final_terms are not returned by this function. They are only printed to be able to observe the effect of lambda_
+        # (set to 0.6 above) and adjust it if required.
 
-        #the commented lines below can be uncommented to observe the change caused by function sort_terms_by_relevance
-        """
         sorted_terms = sorted(final_terms, key=lambda (id, weight): weight, reverse=True)
         final_terms = set()
         for i, x in enumerate(sorted_terms):
             if i < 14:
                 final_terms.add(x[0])
+        print 'topic terms before ranking for relevancy'
         print final_terms
-        """
+
+        # number of terms is limited to 14 to display 2 lines of recommended terms but can be adjusted as desired
+        relevant_final_terms = set()
+        for i, x in enumerate(sorted_relevant_terms):
+            if i < 14:
+                relevant_final_terms.add(x[0])
+        print 'Final topic terms'
+        print relevant_final_terms
 
         return relevant_final_terms
